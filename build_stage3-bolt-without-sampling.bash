@@ -58,6 +58,6 @@ LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/llvm-bolt ${CPATH}/clang-15.org \
     -dyno-stats \
     -reorder-functions=hfsort \
     -reorder-blocks=ext-tsp \
-    -tail-duplication=cache || (echo "Could not optimize binary for clang"; exit 1)
+    -plt=all || (echo "Could not optimize binary for clang"; exit 1)
 
 echo "You can now use the compiler with export PATH=${CPATH}:${PATH}"

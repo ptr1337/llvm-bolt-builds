@@ -51,7 +51,7 @@ LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/llvm-bolt ${CPATH}/clang-15 \
     -dyno-stats \
     -reorder-functions=hfsort \
     -reorder-blocks=ext-tsp \
-    -tail-duplication=cache || (echo "Could not optimize binary for clang"; exit 1)
+    -plt=all || (echo "Could not optimize binary for clang"; exit 1)
 
 echo "move bolted binary to clang-15"
 mv ${CPATH}/clang-15 ${CPATH}/clang-15.org

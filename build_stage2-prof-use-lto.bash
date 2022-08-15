@@ -30,7 +30,7 @@ cmake -G Ninja ${TOPLEV}/llvm-project/llvm \
     -DCMAKE_INSTALL_PREFIX=${TOPLEV}/stage2-prof-use-lto/install \
     -DLLVM_PROFDATA_FILE=${TOPLEV}/stage2-prof-gen/profiles/clang.profdata \
     -DLLVM_ENABLE_LTO=Thin \
-    -DCMAKE_EXE_LINKER_FLAGS="-Wl,--emit-relocs" \
+    -DCMAKE_EXE_LINKER_FLAGS="-Wl,-znow -Wl,--emit-relocs"
     -DLLVM_ENABLE_PLUGINS=ON \
     -DLLVM_ENABLE_TERMINFO=OFF  || (echo "Could not configure project!"; exit 1)
 
