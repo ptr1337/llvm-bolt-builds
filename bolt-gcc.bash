@@ -63,11 +63,11 @@ if [ ${STAGE} = 2 ]; then
 
         LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/perf2bolt ${GCCPATH}/cc1.org \
             -p ${PERFDATA} \
-            -o ${DATA}/cc1.fdata || (echo "Could not convert perf-data to bolt for clang-15"; exit 1)
+            -o ${DATA}/cc1.fdata || (echo "Could not convert perf-data to bolt for clang-16"; exit 1)
 
         LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/perf2bolt ${GCCPATH}/cc1.org \
             -p ${PERFDATA} \
-            -o ${DATA}/cc1plus.fdata || (echo "Could not convert perf-data to bolt for clang-15"; exit 1)
+            -o ${DATA}/cc1plus.fdata || (echo "Could not convert perf-data to bolt for clang-16"; exit 1)
 
         echo "Optimizing cc1 with the generated profile"
         cd ${TOPLEV}

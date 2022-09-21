@@ -90,7 +90,7 @@ build_llvm_bolt ()  {
     TOPLEV=~/toolchain/llvm
     mkdir -p ${TOPLEV}
     cd ${TOPLEV} || (echo "Could not enter ${TOPLEV} directory"; exit 1)
-    git clone --depth=1 -b release/15.x https://github.com/llvm/llvm-project.git
+    git clone --depth=1 https://github.com/llvm/llvm-project.git
 
     mkdir -p stage1 || (echo "Could not create stage1 directory"; exit 1)
     cd stage1 || (echo "Could not enter stage 1 directory"; exit 1)
