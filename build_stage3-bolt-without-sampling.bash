@@ -19,8 +19,8 @@ ${BOLTPATH}/llvm-bolt \
     -o ${CPATH}/clang-16.inst
 
 echo "mooving instrumented binary"
-mv ${CPATH}/clang-16 ${CPATH}/clang-15.org
-mv ${CPATH}/clang-16.inst ${CPATH}/clang-15
+mv ${CPATH}/clang-16 ${CPATH}/clang-16.org
+mv ${CPATH}/clang-16.inst ${CPATH}/clang-16
 
 echo "== Configure Build"
 echo "== Build with stage2-prof-use-lto instrumented clang -- $CPATH"
