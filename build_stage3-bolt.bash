@@ -54,7 +54,7 @@ LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/llvm-bolt ${CPATH}/clang-16 \
     -plt=all || (echo "Could not optimize binary for clang"; exit 1)
 
 echo "move bolted binary to clang-16"
-mv ${CPATH}/clang-16 ${CPATH}/clang-15.org
-mv ${CPATH}/clang-16.bolt ${CPATH}/clang-15
+mv ${CPATH}/clang-16 ${CPATH}/clang-16.org
+mv ${CPATH}/clang-16.bolt ${CPATH}/clang-16
 
 echo "You can now use the compiler with export PATH=${CPATH}"
