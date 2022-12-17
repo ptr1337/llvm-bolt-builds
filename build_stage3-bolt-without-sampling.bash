@@ -47,17 +47,14 @@ echo "Optimizing Clang with the generated profile"
 LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/llvm-bolt ${CPATH}/clang-16.org \
     --data combined.fdata \
     -o ${CPATH}/clang-16 \
-    -relocs \
+    -reorder-blocks=ext-tsp \
+    -reorder-functions=hfsort+ \
     -split-functions \
     -split-all-cold \
-    -icf=1 \
-    -lite=1 \
     -split-eh \
-    -use-gnu-stack \
-    -jump-tables=move \
     -dyno-stats \
-    -reorder-functions=hfsort \
-    -reorder-blocks=ext-tsp \
-    -plt=all || (echo "Could not optimize binary for clang"; exit 1)
+    -icf=1 \
+    -use-gnu-stack \
+    -plt=hot|| (echo "Could not optimize binary for clang"; exit 1)
 
 echo "You can now use the compiler with export PATH=${CPATH}:${PATH}"

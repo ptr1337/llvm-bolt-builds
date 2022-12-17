@@ -63,44 +63,40 @@ if [ ${STAGE} = 2 ]; then
 
         LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/perf2bolt ${GCCPATH}/cc1.org \
             -p ${PERFDATA} \
-            -o ${DATA}/cc1.fdata || (echo "Could not convert perf-data to bolt for clang-16"; exit 1)
+            -o ${DATA}/cc1.fdata || (echo "Could not convert perf-data to bolt for gcc"; exit 1)
 
         LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/perf2bolt ${GCCPATH}/cc1.org \
             -p ${PERFDATA} \
-            -o ${DATA}/cc1plus.fdata || (echo "Could not convert perf-data to bolt for clang-16"; exit 1)
+            -o ${DATA}/cc1plus.fdata || (echo "Could not convert perf-data to bolt for gcc"; exit 1)
 
         echo "Optimizing cc1 with the generated profile"
         cd ${TOPLEV}
         LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/llvm-bolt ${GCCPATH}/cc1.org \
             --data ${DATA}/cc1.fdata \
             -o ${TOPLEV}/cc1 \
+            -reorder-blocks=ext-tsp \
+            -reorder-functions=hfsort+ \
             -split-functions \
             -split-all-cold \
-            -icf=1 \
-            -lite=1 \
             -split-eh \
-            -use-gnu-stack \
-            -jump-tables=move \
             -dyno-stats \
-            -reorder-functions=hfsort+ \
-            -reorder-blocks=ext-tsp \
-            -tail-duplication=cache || (echo "Could not optimize binary for cc1"; exit 1)
+            -icf=1 \
+            -use-gnu-stack \
+            -plt=hot || (echo "Could not optimize binary for cc1"; exit 1)
 
         cd ${TOPLEV}
         LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/llvm-bolt ${GCCPATH}/cc1plus.org \
             --data ${DATA}/cc1plus.fdata \
             -o ${TOPLEV}/cc1plus \
+            -reorder-blocks=ext-tsp \
+            -reorder-functions=hfsort+ \
             -split-functions \
             -split-all-cold \
-            -icf=1 \
-            -lite=1 \
             -split-eh \
-            -use-gnu-stack \
-            -jump-tables=move \
             -dyno-stats \
-            -reorder-functions=hfsort+ \
-            -reorder-blocks=ext-tsp \
-            -tail-duplication=cache || (echo "Could not optimize binary for cc1plus"; exit 1)
+            -icf=1 \
+            -use-gnu-stack \
+            -plt=hot || (echo "Could not optimize binary for cc1plus"; exit 1)
     else
         echo "Merging generated profiles"
         cd ${DATA}/cc1
@@ -113,35 +109,29 @@ if [ ${STAGE} = 2 ]; then
         LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/llvm-bolt ${GCCPATH}/cc1.org \
             --data ${DATA}/cc1/cc1-combined.fdata \
             -o ${TOPLEV}/cc1 \
-            -relocs \
+            -reorder-blocks=ext-tsp \
+            -reorder-functions=hfsort+ \
             -split-functions \
             -split-all-cold \
-            -icf=1 \
-            -lite=1 \
             -split-eh \
-            -use-gnu-stack \
-            -jump-tables=move \
             -dyno-stats \
-            -reorder-functions=hfsort+ \
-            -reorder-blocks=ext-tsp \
-            -tail-duplication=cache || (echo "Could not optimize binary for cc1"; exit 1)
+            -icf=1 \
+            -use-gnu-stack \
+            -plt=hot || (echo "Could not optimize binary for cc1"; exit 1)
 
         cd ${TOPLEV}
         LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/llvm-bolt ${GCCPATH}/cc1plus.org \
             --data ${DATA}/cc1plus/cc1plus-combined.fdata \
             -o ${TOPLEV}/cc1plus \
-            -relocs \
+            -reorder-blocks=ext-tsp \
+            -reorder-functions=hfsort+ \
             -split-functions \
             -split-all-cold \
-            -icf=1 \
-            -lite=1 \
             -split-eh \
-            -use-gnu-stack \
-            -jump-tables=move \
             -dyno-stats \
-            -reorder-functions=hfsort+ \
-            -reorder-blocks=ext-tsp \
-            -tail-duplication=cache || (echo "Could not optimize binary for cc1plus"; exit 1)
+            -icf=1 \
+            -use-gnu-stack \
+            -plt=hot || (echo "Could not optimize binary for cc1plus"; exit 1)
 
 
         echo "mooving bolted binary"
