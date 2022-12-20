@@ -26,7 +26,7 @@ The goal of the techniques is to utilize the CPU black magic better and layout
 the code in a way, that allows faster execution.
 
 Measure performance gains and evaluate if its worth the hazzle :)
-You can experiment with technologies, maybe `ThinLTO` is better then `FullLTO`,
+You can experiment with technologies, maybe `ThinLTO` is better than `FullLTO`,
 
 For the last bit of performance, you can run several different workloads and then merge the resulted profiles with 'merge-fdata \*.fdata > combined.fdata' and then optimize the libary with llvm-bolt again.
 and nothing else! The same goes for `BOLT`.
