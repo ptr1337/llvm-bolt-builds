@@ -26,10 +26,14 @@ cmake -G Ninja ${TOPLEV}/llvm-project/llvm \
     -DLLVM_ENABLE_PROJECTS="clang;lld;compiler-rt;polly" \
     -DLLVM_TARGETS_TO_BUILD="X86" \
     -DCMAKE_BUILD_TYPE=Release \
+    -DCLANG_VENDOR="CachyOS - BOLT" \
     -DLLVM_ENABLE_WARNINGS=OFF \
     -DCMAKE_INSTALL_PREFIX=${TOPLEV}/stage2-prof-use-lto/install \
     -DLLVM_PROFDATA_FILE=${TOPLEV}/stage2-prof-gen/profiles/clang.profdata \
     -DLLVM_ENABLE_LTO=Thin \
+    -DCMAKE_C_FLAGS="-O3 -march=x86-64-v3 -mtune=skylake -ffunction-sections -fdata-sections" \
+    -DCMAKE_ASM_FLAGS="-O3 -march=x86-64-v3 -mtune=skylake -ffunction-sections -fdata-sections" \
+    -DCMAKE_CXX_FLAGS="-O3 -march=x86-64-v3 -mtune=skylake -ffunction-sections -fdata-sections" \
     -DCMAKE_EXE_LINKER_FLAGS="-Wl,-znow -Wl,--emit-relocs" \
     -DLLVM_ENABLE_PLUGINS=ON \
     -DLLVM_ENABLE_TERMINFO=OFF  || (echo "Could not configure project!"; exit 1)
