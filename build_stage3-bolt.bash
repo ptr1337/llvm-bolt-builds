@@ -50,8 +50,26 @@ LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/llvm-bolt ${CPATH}/clang-16 \
     -use-gnu-stack \
     -plt=hot || (echo "Could not optimize binary for clang"; exit 1)
 
+echo "Optimizing LLD with the generated profile"
+
+LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/llvm-bolt ${CPATH}/lld \
+    -o ${CPATH}/lld.bolt \
+    --data ${TOPLEV}/clang-16.fdata \
+    -reorder-blocks=ext-tsp \
+    -reorder-functions=cds \
+    -split-functions \
+    -split-all-cold \
+    -split-eh \
+    -dyno-stats \
+    -icf=1 \
+    -use-gnu-stack \
+    -plt=hot || (echo "Could not optimize binary for lld"; exit 1)
+
+
 echo "move bolted binary to clang-16"
 mv ${CPATH}/clang-16 ${CPATH}/clang-16.org
 mv ${CPATH}/clang-16.bolt ${CPATH}/clang-16
+mv ${CPATH}/lld ${CPATH}/lld.org
+mv ${CPATH}/lld.bolt ${CPATH}/lld
 
 echo "You can now use the compiler with export PATH=${CPATH}"
