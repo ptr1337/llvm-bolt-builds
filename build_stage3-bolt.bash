@@ -25,21 +25,21 @@ cmake -G Ninja \
     ../llvm-project/llvm || (echo "Could not configure project!"; exit 1)
 
 echo "== Start Training Build"
-perf record -o ${TOPLEV}/perf.data --max-size=4G -F 1600 -e cycles:u -j any,u -- ninja clang || (echo "Could not build project for training!"; exit 1)
+perf record -o ${TOPLEV}/perf.data --max-size=4G -F 1700 -e cycles:u -j any,u -- ninja clang || (echo "Could not build project for training!"; exit 1)
 
 cd ${TOPLEV}
 
 echo "Converting profile to a more aggreated form suitable to be consumed by BOLT"
 
-LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/perf2bolt ${CPATH}/clang-16 \
+LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/perf2bolt ${CPATH}/clang-17 \
     -p ${TOPLEV}/perf.data \
-    -o ${TOPLEV}/clang-16.fdata || (echo "Could not convert perf-data to bolt for clang-15"; exit 1)
+    -o ${TOPLEV}/clang-17.fdata || (echo "Could not convert perf-data to bolt for clang-15"; exit 1)
 
 echo "Optimizing Clang with the generated profile"
 
-LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/llvm-bolt ${CPATH}/clang-16 \
-    -o ${CPATH}/clang-16.bolt \
-    --data ${TOPLEV}/clang-16.fdata \
+LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/llvm-bolt ${CPATH}/clang-17 \
+    -o ${CPATH}/clang-17.bolt \
+    --data ${TOPLEV}/clang-17.fdata \
     -reorder-blocks=ext-tsp \
     -reorder-functions=cds \
     -split-functions \
@@ -54,7 +54,7 @@ echo "Optimizing LLD with the generated profile"
 
 LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/llvm-bolt ${CPATH}/lld \
     -o ${CPATH}/lld.bolt \
-    --data ${TOPLEV}/clang-16.fdata \
+    --data ${TOPLEV}/clang-17.fdata \
     -reorder-blocks=ext-tsp \
     -reorder-functions=cds \
     -split-functions \
@@ -66,9 +66,9 @@ LD_PRELOAD=/usr/lib/libjemalloc.so ${BOLTPATH}/llvm-bolt ${CPATH}/lld \
     -plt=hot || (echo "Could not optimize binary for lld"; exit 1)
 
 
-echo "move bolted binary to clang-16"
-mv ${CPATH}/clang-16 ${CPATH}/clang-16.org
-mv ${CPATH}/clang-16.bolt ${CPATH}/clang-16
+echo "move bolted binary to clang-17"
+mv ${CPATH}/clang-17 ${CPATH}/clang-17.org
+mv ${CPATH}/clang-17.bolt ${CPATH}/clang-17
 mv ${CPATH}/lld ${CPATH}/lld.org
 mv ${CPATH}/lld.bolt ${CPATH}/lld
 

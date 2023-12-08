@@ -26,7 +26,7 @@ cmake -G Ninja ${TOPLEV}/llvm-project/llvm \
     -DLLVM_ENABLE_PROJECTS="clang;lld;compiler-rt;polly" \
     -DLLVM_TARGETS_TO_BUILD="X86" \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCLANG_VENDOR="CachyOS - LLVM 16 BOLT" \
+    -DCLANG_VENDOR="CachyOS - LLVM 17 BOLT" \
     -DLLVM_ENABLE_WARNINGS=OFF \
     -DCMAKE_INSTALL_PREFIX=${TOPLEV}/stage2-prof-use-lto/install \
     -DLLVM_PROFDATA_FILE=${TOPLEV}/stage2-prof-gen/profiles/clang.profdata \
