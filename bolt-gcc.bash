@@ -75,7 +75,7 @@ if [ ${STAGE} = 2 ]; then
             --data ${DATA}/cc1.fdata \
             -o ${TOPLEV}/cc1 \
             -reorder-blocks=ext-tsp \
-            -reorder-functions=hfsort+ \
+            -reorder-functions=cdsort \
             -split-functions \
             -split-all-cold \
             -split-eh \
@@ -89,7 +89,7 @@ if [ ${STAGE} = 2 ]; then
             --data ${DATA}/cc1plus.fdata \
             -o ${TOPLEV}/cc1plus \
             -reorder-blocks=ext-tsp \
-            -reorder-functions=hfsort+ \
+            -reorder-functions=cdsort \
             -split-functions \
             -split-all-cold \
             -split-eh \
@@ -110,7 +110,7 @@ if [ ${STAGE} = 2 ]; then
             --data ${DATA}/cc1/cc1-combined.fdata \
             -o ${TOPLEV}/cc1 \
             -reorder-blocks=ext-tsp \
-            -reorder-functions=hfsort+ \
+            -reorder-functions=cdsort \
             -split-functions \
             -split-all-cold \
             -split-eh \
@@ -124,7 +124,7 @@ if [ ${STAGE} = 2 ]; then
             --data ${DATA}/cc1plus/cc1plus-combined.fdata \
             -o ${TOPLEV}/cc1plus \
             -reorder-blocks=ext-tsp \
-            -reorder-functions=hfsort+ \
+            -reorder-functions=cdsort \
             -split-functions \
             -split-all-cold \
             -split-eh \

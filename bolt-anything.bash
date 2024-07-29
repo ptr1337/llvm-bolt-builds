@@ -69,7 +69,7 @@ optimize() {
         --data ${BOLTBIN}/${BINARY}-combined.fdata \
         -o ${BOLTBIN}/${BINARY}.bolt \
         -reorder-blocks=ext-tsp
-        -reorder-functions=hfsort+
+        -reorder-functions=cdsort
         -split-functions
         -split-all-cold
         -split-eh
