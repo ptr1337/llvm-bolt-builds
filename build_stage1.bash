@@ -1,8 +1,8 @@
 #!/bin/bash
 
 TOPLEV=~/toolchain/llvm
-cd ${TOPLEV} || (echo "Could not enter ${TOPLEV} directory"; exit 1)
 mkdir -p ${TOPLEV}
+cd ${TOPLEV} || (echo "Could not enter ${TOPLEV} directory"; exit 1)
 git clone https://github.com/llvm/llvm-project.git
 
 mkdir -p stage1 || (echo "Could not create stage1 directory"; exit 1)
@@ -24,7 +24,7 @@ cmake -G Ninja ${TOPLEV}/llvm-project/llvm \
     -DCMAKE_C_COMPILER=clang \
     -DCMAKE_CXX_COMPILER=clang++ \
     -DLLVM_USE_LINKER=lld \
-    -DLLVM_ENABLE_PROJECTS="clang;lld;bolt;compiler-rt" \
+    -DLLVM_ENABLE_PROJECTS="clang;lld;bolt;compiler-rt;llvm" \
     -DLLVM_TARGETS_TO_BUILD="X86" \
     -DCMAKE_EXE_LINKER_FLAGS="-Wl,--push-state -Wl,-whole-archive -ljemalloc_pic -Wl,--pop-state -lpthread -lstdc++ -lm -ldl" \
     -DCMAKE_BUILD_TYPE=Release \
